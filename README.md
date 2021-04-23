@@ -174,3 +174,32 @@ thresholdType adalah tipe thresholding yang digunakan
 blockSize adalah rentang sekitar
 
 C adalah konstanta untuk menentukan ambang
+
+### Otsu's Binaryzation
+Mencari nilai thresh yang optimal secara otomatis. Dilakukan dengan cara menambahkan tipe tambahan pada threshold yang bernama `cv.THRESH_OTSU`. Hasil dari Otsu's binaryzation akan lebih maksimal apabila sebelumnya gambar difilter terlebih dahulu dengan memanggil fungsi `cv.GaussianBlur(src, ksize, sigmaX)`.
+
+Langkah-langkah mengimplementasikan Otsu's Binaryzation :
+
+1. Membaca gambar input
+2. Memfilter gambar dengan memanggil fungsi `cv.GaussianBlur()`
+3. Melakukan thresholding dengan tipe tambahan `cv.THRESH_OTSU`
+
+## Smoothing Image
+
+### Image Filtering
+Gambar juga dapat difilter. Memfilter gambar bertujuan untuk menghilangkan noise, membuat gambar blur, dan lain sebagainya. Untuk memfilter sebuah gambar diperlukan fungsi `cv.filter2D(src, depth, kernel)`.
+
+### Image Bluring/Image Smoothing
+
+#### Averaging
+Menggabungkan box filter yang umum dengan gambar. Sistemnya adalah mengambil pixel yang berada di bawah kernel dan menggantikannya dengan pixel tengah. Smoothing averaging dilakukan dengan memanggil fungsi `cv.blur(src, size)` atau `cv.boxFilter()`.
+
+#### Gaussian Bluring
+Memfilter gambar menggunakan box filter yang didalamnya terdapat Gaussian kernel. Untuk melakukan Gaussian Bluring dapat memanggil fungsi `cv.GaussianBlur(src, ksize, sigmaX)`. Jika ingin membuat Gauss kernel sendiri bisa memanggil fungsi `cv.getGaussianKernel()`.
+
+#### Median Bluring
+Mengambil pixel yang berada di bawah kernel dan diganti dengan niai median. Untuk melakukan median-bluring diperlukan memanggil fungsi `cv.medianBlur(src, size)`
+
+#### Bilateral Filtering
+Hampir sama seperti Gaussian bluring, hanya saja jika Gaussian bluring memperhatikan pixel terdekat, jika bilateral filtering memeperhatikan berdasarkan intensitas yang sama. Bilateral filtering dianggap lebih optimal. Untuk melakukannya dapat memanggil fungsi `cv.bilateralFilter()`
+
