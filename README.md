@@ -5,9 +5,9 @@ Belajar OpenCV : ini untuk memenuhi tugas magang Ichiro yang kedua untuk belajar
 Dalam openCV terdapat banyak sekali color-space yang dapat digunakan. Perubahan color-space yang sering digunakan adalah BGR <-> HSV dan BGR <-> Gray.
 Untuk merubah color-space, openCV memiliki sebuah fungsi :
 
-     `cv.cvtColor(input_image, flag)` :
+`cv.cvtColor(src, flag)` :
   
-input_image adalah gambar yang akan dioperasikan.
+src adalah gambar yang akan dioperasikan.
 
 flag adalah tipe konversi yang akan dilakukan. flag yang sering digunakan adalah `cv.COLOR_BGR2GRAY` dan `cv.COLOR_BGR2HSV`.
 
@@ -25,11 +25,11 @@ Perubahan color-space dapat digunakan untuk mendeteksi ambang warna tertentu. Ta
 Scaling adalah mengubah ukuran sebuah gambar. Mengubah ukuran gambar dapat dilakukan dengan mengganti ukurannya secara manual maupun dengan skala. 
 Untuk mengubah ukuran sebuah gambar, digunakan fungsi :
 
-    `cv.resize(input_image, ukuran, interpolation)` :
+`cv.resize(src, size, interpolation)` :
     
-input_image adalah gambar yang akan diubah ukurannya
+src adalah gambar yang akan diubah ukurannya
 
-ukuran dapat diisi dengan dua cara, yaitu :
+size dapat diisi dengan dua cara, yaitu :
 - Manual, yaitu dengan memasukkan lebar dan panjang yang diinginkan
 - Skala, yaitu dengan memasukkan `fx` sebagai skala panjang dan `fy` sebagai skala lebar
 
@@ -45,3 +45,132 @@ Langkah-langkah untuk mengubah ukuran gambar adalah sebagai berikut :
 2. Mengubah ukuran gambar dengan memanggil fungsi `cv.resize()`
 
 ### Translation
+Untuk menggeser sebuah gambar, openCV memiliki fungsi :
+
+`cv.wrapAffine(src, Matrix, size)` :
+
+src adalah gambar yang akan digeser
+
+Matrix adalah matriks perpindahan yang diinginkan. Biasanya digunakan [1,0,tx],[0,1,ty] dengan tx perpindahan horizontal dan ty perpindahan vertikal.
+
+size adalah ukuran gambar
+
+Langkah-langkah untuk menggeser sebuah gambar adalah sebagai berikut :
+
+1. Membaca sebuah gambar yang akan digeser
+2. Mendapatkan ukuran gambar
+3. Membuat matriks pergeseran yang akan dilakukan
+4. Menggeser gambar dengan memanggil fungsi `cv.wrapAffine()`
+
+### Rotation
+Untuk memutar sebuah gambar, dapat digunakan fungsi :
+
+- `cv.getRotationMatrix2D(center, angle, scale)` :
+
+center adalah koordinat poros perputaran yang akan dilakukan
+
+angle adalah besar sudut perputaran
+
+scale adalah skala gambar setelah diputar
+
+- `cv.wrapAffine(src, Matrix, size)` :
+
+src adalah gambar yang akan diputar
+
+Matrix adalah matriks perputaran yang didapat dengan memanggil fungsi `cv.getRotationMatrix2D()`
+
+size adalah ukuran gambar
+
+Langkah-langkah untuk memutar gambar adalah sebagai berikut :
+
+1. Membaca gambar yang akan diputar
+2. Mendapatkan matriks perputaran dengan memanggil fungsi `cv.getRotationMatrix2D()`
+3. Memutar gambar dengan memanggil fungsi `cv.wrapAffine()`
+
+### Affine Transformation
+Affine Transformation adalah memindahkan sebuah gambar berdasarkan tiga koordinat yang diberikan. Untuk melakukan affine transformation, digunakan fungsi :
+
+- `cv.getAffineTransform(src, dst)` :
+
+src adalah titik asal sebelum transformasi
+
+dst adalah titik tujuan transformasi
+
+- `cv.wrapAffine(src, Matrix, size)` :
+
+src adalah gambar yang akan mengalami transformasi
+
+Matrix adalah matriks transformasi yang didapat dengan memanggil fungsi `cv.getAffineTransform()`
+
+size adalah ukuran gambar
+
+Langkah-langkah untuk melakukan Affine Transformation adalah sebagai berikut :
+
+1. Membaca gambar yang akan ditranformasi
+2. Menentukan tiga titik asal dan titik tujuan transformasi
+3. Membuat matriks tranformasi dengan memanggil fungsi `cv.getAffineTransform()`
+4. Melakukan Affine Transformation dengan memanggil fungsi `cv.wrapAffine()`
+
+### Perspective Transformation
+Perspective Transformation adalah memindahkan sebuah gambar berdasarkan empat koordinat yang diberikan, namun dalam transformasi ini sumbu-x dan sumbu-y tetap pada tempatnya. Untuk melakukan Perspective Transformation digunakan fungsi :
+
+- `cv.getPerspectiveTransform(src, dst)` :
+
+src adalah titik asal sebelum transformasi
+
+dst adalah titik tujuan transformasi
+
+- `cv.wrapAffine(src, Matrix, size)` :
+
+src adalah gambar yang akan mengalami transformasi
+
+Matrix adalah matriks transformasi yang didapat dengan memanggil fungsi `cv.getAffineTransform()`
+
+size adalah ukuran gambar
+
+Langkah-langkah untuk melakukan Affine Transformation adalah sebagai berikut :
+
+1. Membaca gambar yang akan ditranformasi
+2. Menentukan tiga titik asal dan titik tujuan transformasi
+3. Membuat matriks tranformasi dengan memanggil fungsi `cv.getAffineTransform()`
+4. Melakukan Affine Transformation dengan memanggil fungsi `cv.wrapAffine()`
+
+## Image Thresholding
+
+### Simple Thresholding
+Membuat nilai pada semua pixel dalam sebuah gambar hanya pada ambang tertentu. Threshold hanya digunakan untuk gambar Gray-scale. Untuk simple thresholding, openCV memiliki fungsi :
+
+`cv.thershold(src, thresh, maxval, type)` :
+
+src adalah gambar input
+
+thresh adalah ambang yang dibuat
+
+maxval adalah nilai pixel terbesar
+
+type adalah tipe thresholding. Tipe ini dibagi menjadi :
+
+- cv.THRESH_BINARY
+- cv.THRESH_BINARY_INV
+- cv.THRESH_TRUNC
+- cv.THRESH_TOZERO
+- cv.THRESH_TOZERO_INV
+
+### Adaptive Thresholding
+Thresholding namun dengan ambang yang lebih sesuai yang didapat dari mengidentifikasi di sekitar pixel tersebut. Untuk Adaptive Threshold digunakan fungsi :
+
+`cv.adaptiveThreshold(src, maxValue, adaptiveMethod, thresholdType, blockSize, C)`
+
+src adalah gambar input
+
+maxvalue adalah nilai pixel terbesar
+
+adaptiveMethod adalah metode adaptasi untuk thresholding. Terdapat 2 metode yaitu :
+- cv.ADAPTIVE_THRESH_MEAN_C: nilai ambangnya adalah rata-rata pixel sekitar dikurangi C
+- cv.ADAPTIVE_THRESH_GAUSSIAN_C: nilai ambangnya adalah penjumlahan Gauss pixel sekitar dikurangi C.
+
+thresholdType adalah tipe thresholding yang digunakan
+
+blockSize adalah rentang sekitar
+
+C adalah konstanta untuk menentukan ambang
